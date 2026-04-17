@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:folbari/core/dimentions/spacings.dart';
 import 'package:folbari/presentation/core/resources/app_assets.dart';
+import 'package:folbari/presentation/core/routes/app_pages.dart';
 import 'package:folbari/presentation/core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -24,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     Spacing.vertical(80),
                     Image.asset(
-                      AppAssets.foodsPNG,
+                      AppAssets.foods,
                       fit: BoxFit.contain,
                       width: 301.w,
                       height: 260.h,
@@ -58,6 +60,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: AppColors.c5D577E,
+                      fontFamily: 'Brandon Grotesque',
                       height: 1.5,
                     ),
                   ),
@@ -66,7 +69,9 @@ class WelcomeScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 56.h,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go(AppPages.auth);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.cFFA451,
                         foregroundColor: AppColors.cFFFFFF,
@@ -80,6 +85,7 @@ class WelcomeScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
+                          fontFamily: 'Brandon Grotesque',
                         ),
                       ),
                     ),
