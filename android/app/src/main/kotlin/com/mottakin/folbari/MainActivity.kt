@@ -1,4 +1,4 @@
-package com.mottakin.folbari.folbari
+package com.mottakin.folbari
 
 import io.flutter.embedding.android.FlutterActivity
 

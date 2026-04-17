@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mottakin.folbari.folbari"
+    namespace = "com.mottakin.folbari"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.mottakin.folbari.folbari"
+        applicationId = "com.mottakin.folbari"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

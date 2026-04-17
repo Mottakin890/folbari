@@ -13,7 +13,16 @@ class AppRoutes {
         name: AppPages.splash,
         builder: (context, state) => const SplashScreen(),
       ),
-      GoRoute(path: AppPages.welcome, name: AppPages.welcome, builder: (context, state) => const WelcomeScreen(),)
+      GoRoute(
+        path: AppPages.welcome,
+        name: AppPages.welcome,
+        builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: AppPages.auth,
+        name: AppPages.auth,
+        builder: (context, state) => const AuthScreen(),
+      ),
     ],
   );
 }
