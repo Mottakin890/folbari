@@ -1,0 +1,1 @@
+enum Deployment { staging, production }
