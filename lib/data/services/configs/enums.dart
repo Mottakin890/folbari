@@ -1,1 +1,0 @@
-enum Deployment { staging, production }
