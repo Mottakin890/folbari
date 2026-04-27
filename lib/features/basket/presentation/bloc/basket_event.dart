@@ -36,3 +36,7 @@ class UpdateItemQuantity extends BasketEvent {
   @override
   List<Object?> get props => [itemId, quantity];
 }
+
+class ClearBasket extends BasketEvent {
+  const ClearBasket();
+}

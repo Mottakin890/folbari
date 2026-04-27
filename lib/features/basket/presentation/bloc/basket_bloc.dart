@@ -19,6 +19,11 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<AddItemToBasket>(_onAddItemToBasket);
     on<RemoveItemFromBasket>(_onRemoveItemFromBasket);
     on<UpdateItemQuantity>(_onUpdateItemQuantity);
+    on<ClearBasket>(_onClearBasket);
+  }
+
+  void _onClearBasket(ClearBasket event, Emitter<BasketState> emit) {
+    emit(const BasketState(items: [], isLoading: false));
   }
 
   Future<void> _onLoadBasket(LoadBasket event, Emitter<BasketState> emit) async {

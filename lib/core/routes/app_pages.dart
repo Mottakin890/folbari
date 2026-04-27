@@ -7,4 +7,10 @@ class AppPages {
   static const String home = '/home';
   static const String productDetail = '/product-detail';
   static const String basket = '/basket';
+  static const String orderSuccess = '/order-success';
+  static const String orderHistory = '/order-history';
+  static const String favorites = '/favorites';
+  static const String settings = '/settings';
+  static const String chat = '/chat';
+  static const String addresses = '/addresses';
 }
