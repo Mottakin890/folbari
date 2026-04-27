@@ -7,6 +7,14 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class GoogleSignInRequested extends AuthEvent {}
-final class SignOutRequested extends AuthEvent {}
-final class AuthCheckRequested extends AuthEvent {}
+final class GoogleSignInRequested extends AuthEvent {
+  const GoogleSignInRequested();
+}
+
+final class SignOutRequested extends AuthEvent {
+  const SignOutRequested();
+}
+
+final class AuthCheckRequested extends AuthEvent {
+  const AuthCheckRequested();
+}

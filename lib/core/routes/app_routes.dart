@@ -1,6 +1,7 @@
 import 'package:folbari/core/routes/app_pages.dart';
 import 'package:go_router/go_router.dart';
 import 'package:folbari/core/exports/pages.dart';
+import 'package:folbari/features/home/domain/entities/product_entity.dart';
 
 class AppRoutes {
   const AppRoutes._();
@@ -27,6 +28,19 @@ class AppRoutes {
         path: AppPages.home,
         name: AppPages.home,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: AppPages.productDetail,
+        name: AppPages.productDetail,
+        builder: (context, state) {
+          final product = state.extra as ProductEntity;
+          return ProductDetailScreen(product: product);
+        },
+      ),
+      GoRoute(
+        path: AppPages.basket,
+        name: AppPages.basket,
+        builder: (context, state) => const BasketScreen(),
       ),
     ],
   );

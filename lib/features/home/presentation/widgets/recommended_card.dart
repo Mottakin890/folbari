@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:folbari/core/dimensions/spacings.dart';
+import 'package:folbari/core/routes/app_pages.dart';
 import 'package:folbari/features/home/domain/entities/product_entity.dart';
 import 'package:folbari/core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class RecommendedCard extends StatelessWidget {
   final ProductEntity product;
@@ -18,7 +20,9 @@ class RecommendedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => context.push(AppPages.productDetail, extra: product),
+      child: Container(
       width: 150.w,
       padding: REdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -57,7 +61,7 @@ class RecommendedCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '₦ ${product.price}',
+                    '৳ ${product.price}',
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: AppColors.cFFA451,
@@ -96,6 +100,7 @@ class RecommendedCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

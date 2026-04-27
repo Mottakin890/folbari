@@ -14,6 +14,12 @@ final class AuthState extends Equatable {
     this.errorMessage,
   });
 
+  bool get isInitial => status == AuthStatus.initial;
+  bool get isLoading => status == AuthStatus.loading;
+  bool get isAuthenticated => status == AuthStatus.authenticated;
+  bool get isUnauthenticated => status == AuthStatus.unauthenticated;
+  bool get isError => status == AuthStatus.error;
+
   AuthState copyWith({
     AuthStatus? status,
     UserEntity? user,

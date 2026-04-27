@@ -11,6 +11,12 @@ import 'package:folbari/features/home/data/repositories/product_repository_impl.
 import 'package:folbari/features/home/domain/repositories/product_repository.dart';
 import 'package:folbari/features/home/domain/usecases/get_category_products.dart';
 import 'package:folbari/features/home/domain/usecases/get_recommended_products.dart';
+import 'package:folbari/features/basket/data/datasources/basket_remote_data_source.dart';
+import 'package:folbari/features/basket/data/repositories/basket_repository_impl.dart';
+import 'package:folbari/features/basket/domain/repositories/basket_repository.dart';
+import 'package:folbari/features/basket/domain/usecases/basket_usecases.dart';
+import 'package:folbari/features/basket/presentation/bloc/basket_bloc.dart';
+import 'package:folbari/features/checkout/presentation/bloc/checkout_bloc.dart';
 import 'package:folbari/features/home/presentation/bloc/product_bloc.dart';
 import 'package:folbari/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:folbari/features/splash/presentation/bloc/splash_bloc.dart';
@@ -21,9 +27,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final GetIt sl = GetIt.instance;
 
 class DependencyInjection {
+  DependencyInjection._();
+
   static Future<void> init() async {
-    // External
+    await _initExternal();
+    _initDataSources();
+    _initRepositories();
+    _initUseCases();
+    _initBlocs();
+  }
+
+  static Future<void> _initExternal() async {
     sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+    
     final googleSignIn = GoogleSignIn.instance;
     await googleSignIn.initialize(
       clientId: (Platform.isAndroid)
@@ -32,9 +48,9 @@ class DependencyInjection {
       serverClientId: dotenv.env['WEB_CLIENT_ID'],
     );
     sl.registerLazySingleton<GoogleSignIn>(() => googleSignIn);
+  }
 
-
-    // Data Sources
+  static void _initDataSources() {
     sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
         supabaseClient: sl(),
@@ -44,23 +60,37 @@ class DependencyInjection {
     sl.registerLazySingleton<ProductRemoteDataSource>(
       () => ProductRemoteDataSourceImpl(supabaseClient: sl()),
     );
+    sl.registerLazySingleton<BasketRemoteDataSource>(
+      () => BasketRemoteDataSourceImpl(supabaseClient: sl()),
+    );
+  }
 
-    // Repositories
+  static void _initRepositories() {
     sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(remoteDataSource: sl()),
     );
     sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(remoteDataSource: sl()),
     );
+    sl.registerLazySingleton<BasketRepository>(
+      () => BasketRepositoryImpl(remoteDataSource: sl()),
+    );
+  }
 
-    // Use Cases
+  static void _initUseCases() {
     sl.registerLazySingleton<SignInWithGoogle>(() => SignInWithGoogle(sl()));
     sl.registerLazySingleton<GetCurrentUser>(() => GetCurrentUser(sl()));
     sl.registerLazySingleton<SignOut>(() => SignOut(sl()));
     sl.registerLazySingleton<GetRecommendedProducts>(() => GetRecommendedProducts(sl()));
     sl.registerLazySingleton<GetCategoryProducts>(() => GetCategoryProducts(sl()));
+    
+    sl.registerLazySingleton<GetBasketItems>(() => GetBasketItems(sl()));
+    sl.registerLazySingleton<AddToBasket>(() => AddToBasket(sl()));
+    sl.registerLazySingleton<RemoveFromBasket>(() => RemoveFromBasket(sl()));
+    sl.registerLazySingleton<UpdateBasketQuantity>(() => UpdateBasketQuantity(sl()));
+  }
 
-    // Blocs
+  static void _initBlocs() {
     sl.registerFactory(() => SplashBloc(getCurrentUser: sl()));
     sl.registerFactory(
       () => AuthBloc(
@@ -75,5 +105,14 @@ class DependencyInjection {
         getCategoryProducts: sl(),
       ),
     );
+    sl.registerFactory(
+      () => BasketBloc(
+        getBasketItems: sl(),
+        addToBasket: sl(),
+        removeFromBasket: sl(),
+        updateBasketQuantity: sl(),
+      ),
+    );
+    sl.registerFactory(() => CheckoutBloc());
   }
 }

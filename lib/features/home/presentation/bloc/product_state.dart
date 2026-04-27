@@ -16,6 +16,11 @@ class ProductState extends Equatable {
     this.errorMessage,
   });
 
+  bool get isInitial => status == ProductStatus.initial;
+  bool get isLoading => status == ProductStatus.loading;
+  bool get isLoaded => status == ProductStatus.loaded;
+  bool get isError => status == ProductStatus.error;
+
   ProductState copyWith({
     ProductStatus? status,
     List<ProductEntity>? recommendedProducts,

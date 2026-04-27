@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,18 +11,35 @@ import 'package:folbari/core/config/endpoints.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main(List<String> args) async {
-  await _init(Deployment.production);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
-    _,
-  ) {
-    runApp(
-      const ScreenUtilInit(
-        designSize: Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        child: FolBariApp(),
-      ),
-    );
+  runZonedGuarded(() async {
+    await _init(Deployment.production);
+    
+    // Custom Error Widget for Production
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            'Something went wrong. Please try again later.',
+            style: TextStyle(fontSize: 18.sp, color: Colors.red),
+          ),
+        ),
+      );
+    };
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
+      _,
+    ) {
+      runApp(
+        const ScreenUtilInit(
+          designSize: Size(375, 812),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          child: FolBariApp(),
+        ),
+      );
+    });
+  }, (error, stack) {
+    logger.e('Uncaught Error: $error', error: error, stackTrace: stack);
   });
 }
 

@@ -18,9 +18,7 @@ class CategoryComboList extends StatelessWidget {
       selector: (state) => state.categoryProducts,
       builder: (context, products) {
         if (products.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
         final List<Color> cardColors = [
           AppColors.cFFFAEB,
@@ -29,10 +27,7 @@ class CategoryComboList extends StatelessWidget {
         ];
         return ListView.separated(
           scrollDirection: Axis.horizontal,
-          padding: REdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 16,
-          ),
+          padding: REdgeInsets.symmetric(horizontal: 24, vertical: 16),
           physics: const BouncingScrollPhysics(),
           itemCount: products.length,
           separatorBuilder: (context, index) => Spacing.horizontal(16),
@@ -43,9 +38,7 @@ class CategoryComboList extends StatelessWidget {
               backgroundColor: cardColors[index % cardColors.length],
               onAddTap: () {},
               onFavoriteTap: () {
-                context.read<ProductBloc>().add(
-                      ToggleFavorite(product.id),
-                    );
+                context.read<ProductBloc>().add(ToggleFavorite(product.id));
               },
             );
           },

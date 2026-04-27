@@ -6,6 +6,8 @@ class ProductModel extends ProductEntity {
     required super.name,
     required super.price,
     required super.image,
+    super.description,
+    super.ingredients,
     super.isFavorite,
   });
 
@@ -15,6 +17,8 @@ class ProductModel extends ProductEntity {
       name: json['name'] as String,
       price: json['price'] as String,
       image: json['image'] as String,
+      description: json['description'] as String?,
+      ingredients: json['ingredients'] as String?,
       isFavorite: json['is_favorite'] as bool? ?? false,
     );
   }
@@ -25,6 +29,8 @@ class ProductModel extends ProductEntity {
       'name': name,
       'price': price,
       'image': image,
+      'description': description,
+      'ingredients': ingredients,
       'is_favorite': isFavorite,
     };
   }
