@@ -14,11 +14,14 @@ class HomeHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SvgPicture.asset(
-          AppAssets.leadingIcon,
-          colorFilter: const ColorFilter.mode(
-            AppColors.c070648,
-            BlendMode.srcIn,
+        GestureDetector(
+          onTap: () => Scaffold.of(context).openDrawer(),
+          child: SvgPicture.asset(
+            AppAssets.leadingIcon,
+            colorFilter: const ColorFilter.mode(
+              AppColors.c070648,
+              BlendMode.srcIn,
+            ),
           ),
         ),
         GestureDetector(

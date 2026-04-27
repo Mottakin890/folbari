@@ -7,6 +7,7 @@ import 'package:folbari/features/home/presentation/bloc/product_bloc.dart';
 import 'package:folbari/features/home/presentation/bloc/product_event.dart';
 import 'package:folbari/features/home/presentation/bloc/product_state.dart';
 import 'package:folbari/features/home/presentation/widgets/recommended_card.dart';
+import 'package:folbari/features/home/presentation/widgets/recommended_shimmer.dart';
 
 class RecommendedComboList extends StatelessWidget {
   const RecommendedComboList({super.key});
@@ -17,7 +18,7 @@ class RecommendedComboList extends StatelessWidget {
       selector: (state) => state.recommendedProducts,
       builder: (context, products) {
         if (products.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const RecommendedShimmer();
         }
         return ListView.separated(
           scrollDirection: Axis.horizontal,

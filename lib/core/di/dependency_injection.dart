@@ -22,6 +22,13 @@ import 'package:folbari/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:folbari/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:folbari/features/order/data/datasources/order_remote_data_source.dart';
+import 'package:folbari/features/order/data/repositories/order_repository_impl.dart';
+import 'package:folbari/features/order/domain/repositories/order_repository.dart';
+import 'package:folbari/features/order/domain/usecases/get_orders.dart';
+import 'package:folbari/features/order/presentation/bloc/order_bloc.dart';
+import 'package:folbari/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:folbari/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final GetIt sl = GetIt.instance;
@@ -63,6 +70,9 @@ class DependencyInjection {
     sl.registerLazySingleton<BasketRemoteDataSource>(
       () => BasketRemoteDataSourceImpl(supabaseClient: sl()),
     );
+    sl.registerLazySingleton<OrderRemoteDataSource>(
+      () => OrderRemoteDataSourceImpl(),
+    );
   }
 
   static void _initRepositories() {
@@ -74,6 +84,9 @@ class DependencyInjection {
     );
     sl.registerLazySingleton<BasketRepository>(
       () => BasketRepositoryImpl(remoteDataSource: sl()),
+    );
+    sl.registerLazySingleton<OrderRepository>(
+      () => OrderRepositoryImpl(remoteDataSource: sl()),
     );
   }
 
@@ -88,6 +101,7 @@ class DependencyInjection {
     sl.registerLazySingleton<AddToBasket>(() => AddToBasket(sl()));
     sl.registerLazySingleton<RemoveFromBasket>(() => RemoveFromBasket(sl()));
     sl.registerLazySingleton<UpdateBasketQuantity>(() => UpdateBasketQuantity(sl()));
+    sl.registerLazySingleton<GetOrders>(() => GetOrders(sl()));
   }
 
   static void _initBlocs() {
@@ -114,5 +128,8 @@ class DependencyInjection {
       ),
     );
     sl.registerFactory(() => CheckoutBloc());
+    sl.registerFactory(() => OrderBloc(getOrders: sl()));
+    sl.registerFactory(() => ChatBloc());
+    sl.registerFactory(() => ProfileBloc());
   }
 }

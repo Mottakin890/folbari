@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:folbari/core/dimensions/spacings.dart';
 import 'package:folbari/core/theme/app_colors.dart';
+import 'package:folbari/core/routes/app_pages.dart';
+import 'package:folbari/features/basket/presentation/bloc/basket_bloc.dart';
+import 'package:folbari/features/basket/presentation/bloc/basket_event.dart';
 import 'package:folbari/features/checkout/presentation/bloc/checkout_bloc.dart';
 import 'package:folbari/features/checkout/presentation/bloc/checkout_event.dart';
 import 'package:folbari/features/checkout/presentation/bloc/checkout_state.dart';
@@ -13,8 +16,16 @@ class CheckoutBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return BlocListener<CheckoutBloc, CheckoutState>(
+      listener: (context, state) {
+        if (state.isSuccess) {
+          context.read<BasketBloc>().add(const ClearBasket());
+          context.pop();
+          context.go(AppPages.orderSuccess);
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
           onTap: () => context.pop(),
@@ -181,6 +192,7 @@ class CheckoutBottomSheet extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 }

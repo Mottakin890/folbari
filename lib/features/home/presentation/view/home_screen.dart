@@ -7,9 +7,11 @@ import 'package:folbari/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:folbari/features/auth/presentation/bloc/auth_state.dart';
 import 'package:folbari/features/home/presentation/widgets/category_tab_bar_section.dart';
 import 'package:folbari/features/home/presentation/widgets/greetings_section.dart';
+import 'package:folbari/features/home/presentation/widgets/home_drawer.dart';
 import 'package:folbari/features/home/presentation/widgets/home_header.dart';
 import 'package:folbari/features/home/presentation/widgets/recommended_combo_list.dart';
 import 'package:folbari/features/home/presentation/widgets/search_section.dart';
+import 'package:folbari/features/home/presentation/widgets/section_title.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,6 +28,7 @@ class HomeScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
+          drawer: const HomeDrawer(),
           backgroundColor: AppColors.cFFFFFF,
           body: SafeArea(
             child: CustomScrollView(
@@ -52,22 +55,14 @@ class HomeScreen extends StatelessWidget {
                 SliverPadding(
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   sliver: SliverToBoxAdapter(
-                    child: Text(
-                      'Recommended Combo',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.c27214D,
-                        fontFamily: 'Brandon Grotesque',
-                      ),
-                    ),
+                    child: SectionTitle(title: 'Recommended Combo'),
                   ),
                 ),
     
                 // Recommended Combo List
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: 220.h,
+                    height: 240.h,
                     child: const RecommendedComboList(),
                   ),
                 ),

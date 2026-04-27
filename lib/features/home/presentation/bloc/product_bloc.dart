@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:folbari/features/home/domain/entities/product_entity.dart';
 import 'package:folbari/features/home/domain/usecases/get_category_products.dart';
 import 'package:folbari/features/home/domain/usecases/get_recommended_products.dart';
 import 'product_event.dart';
@@ -37,26 +36,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   void _onToggleFavorite(ToggleFavorite event, Emitter<ProductState> emit) {
     final updatedRecommended = state.recommendedProducts.map((product) {
       if (product.id == event.productId) {
-        return ProductEntity(
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          isFavorite: !product.isFavorite,
-        );
+        return product.copyWith(isFavorite: !product.isFavorite);
       }
       return product;
     }).toList();
 
     final updatedCategory = state.categoryProducts.map((product) {
       if (product.id == event.productId) {
-        return ProductEntity(
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          isFavorite: !product.isFavorite,
-        );
+        return product.copyWith(isFavorite: !product.isFavorite);
       }
       return product;
     }).toList();

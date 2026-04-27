@@ -12,6 +12,11 @@ import 'package:folbari/features/basket/presentation/bloc/basket_event.dart';
 import 'package:folbari/features/home/presentation/bloc/product_bloc.dart';
 import 'package:folbari/features/home/presentation/bloc/product_event.dart';
 import 'package:folbari/features/checkout/presentation/bloc/checkout_bloc.dart';
+import 'package:folbari/features/order/presentation/bloc/order_bloc.dart';
+import 'package:folbari/features/order/presentation/bloc/order_event.dart';
+import 'package:folbari/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:folbari/features/chat/presentation/bloc/chat_event.dart';
+import 'package:folbari/features/profile/presentation/bloc/profile_bloc.dart';
 
 class FolBariApp extends StatelessWidget {
   const FolBariApp({super.key});
@@ -25,6 +30,9 @@ class FolBariApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<ProductBloc>()..add(const LoadProducts())),
         BlocProvider(create: (context) => sl<BasketBloc>()..add(const LoadBasket())),
         BlocProvider(create: (context) => sl<CheckoutBloc>()),
+        BlocProvider(create: (context) => sl<OrderBloc>()..add(const FetchOrders())),
+        BlocProvider(create: (context) => sl<ChatBloc>()..add(const LoadMessages())),
+        BlocProvider(create: (context) => sl<ProfileBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

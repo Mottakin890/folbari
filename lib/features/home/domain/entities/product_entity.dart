@@ -16,4 +16,24 @@ class ProductEntity {
     this.ingredients,
     this.isFavorite = false,
   });
+
+  ProductEntity copyWith({
+    String? id,
+    String? name,
+    String? price,
+    String? image,
+    String? description,
+    String? ingredients,
+    bool? isFavorite,
+  }) {
+    return ProductEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      image: image ?? this.image,
+      description: description ?? this.description,
+      ingredients: ingredients ?? this.ingredients,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
 }

@@ -4,3 +4,4 @@ export '../../features/auth/presentation/view/auth_screen.dart';
 export '../../features/home/presentation/view/home_screen.dart';
 export '../../features/home/presentation/view/product_detail_screen.dart';
 export '../../features/basket/presentation/view/basket_screen.dart';
+export '../../features/order/presentation/view/order_success_screen.dart';
