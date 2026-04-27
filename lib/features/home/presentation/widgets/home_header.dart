@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:folbari/core/resources/app_assets.dart';
+import 'package:folbari/core/routes/app_pages.dart';
 import 'package:folbari/core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -19,18 +21,21 @@ class HomeHeader extends StatelessWidget {
             BlendMode.srcIn,
           ),
         ),
-        Column(
-          children: [
-            SvgPicture.asset(AppAssets.basket),
-            Text(
-              'My basket',
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.c27214D,
-                fontFamily: 'Brandon Grotesque',
+        GestureDetector(
+          onTap: () => context.push(AppPages.basket),
+          child: Column(
+            children: [
+              SvgPicture.asset(AppAssets.basket),
+              Text(
+                'My basket',
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.c27214D,
+                  fontFamily: 'Brandon Grotesque',
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

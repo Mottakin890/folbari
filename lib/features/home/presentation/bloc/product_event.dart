@@ -7,7 +7,9 @@ abstract class ProductEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadProducts extends ProductEvent {}
+class LoadProducts extends ProductEvent {
+  const LoadProducts();
+}
 
 class ToggleFavorite extends ProductEvent {
   final String productId;

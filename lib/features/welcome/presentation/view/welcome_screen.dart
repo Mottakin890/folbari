@@ -1,3 +1,4 @@
+import 'package:folbari/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,47 +48,21 @@ class WelcomeScreen extends StatelessWidget {
                   Spacing.vertical(50),
                   Text(
                     'Get The Freshest Fruit Salad Combo',
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.c27214D,
-                      fontFamily: 'Brandon Grotesque',
-                    ),
+                    style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
                   ),
                   Spacing.vertical(8),
                   Text(
                     'We deliver the best and freshest fruit salad in town. Order for a combo today!!!',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.c5D577E,
-                      fontFamily: 'Brandon Grotesque',
-                      height: 1.5,
-                    ),
+                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.c5D577E, height: 1.5),
                   ),
                   Spacing.vertical(50),
                   SizedBox(
                     width: double.infinity,
-                    height: 56.h,
                     child: ElevatedButton(
                       onPressed: () {
                         context.go(AppPages.auth);
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.cFFA451,
-                        foregroundColor: AppColors.cFFFFFF,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text(
-                        'Let’s Continue',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Brandon Grotesque',
-                        ),
-                      ),
+                      child: const Text('Let’s Continue'),
                     ),
                   ),
                 ],

@@ -18,7 +18,7 @@ class GreetingsSection extends StatelessWidget {
           children: [
             Text.rich(
               TextSpan(
-                text: 'Hello ${name ?? 'Tony'}, ',
+                text: 'Hello ${name ?? 'User'}, ',
                 style: TextStyle(
                   fontSize: 20.sp,
                   color: AppColors.c5D577E,

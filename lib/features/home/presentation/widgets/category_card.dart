@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:folbari/core/dimensions/spacings.dart';
+import 'package:folbari/core/routes/app_pages.dart';
 import 'package:folbari/features/home/domain/entities/product_entity.dart';
 import 'package:folbari/core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryCard extends StatelessWidget {
   final ProductEntity product;
@@ -19,12 +21,21 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => context.push(AppPages.productDetail, extra: product),
+      child: Container(
       width: 140.w,
       padding: REdgeInsets.all(12),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
       ),
       child: Stack(
         children: [
@@ -51,7 +62,7 @@ class CategoryCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '₦ ${product.price}',
+                    '৳ ${product.price}',
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: AppColors.cFFA451,
@@ -90,6 +101,7 @@ class CategoryCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
