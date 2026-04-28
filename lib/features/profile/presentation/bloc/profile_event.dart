@@ -1,14 +1,20 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:folbari/features/profile/domain/entities/profile_entity.dart';
+
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
   @override
   List<Object?> get props => [];
 }
 
-class UpdateProfile extends ProfileEvent {
-  final String name;
-  const UpdateProfile(this.name);
+class UpdateProfileEvent extends ProfileEvent {
+  final ProfileEntity profile;
+  const UpdateProfileEvent(this.profile);
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [profile];
+}
+
+class GetProfileEvent extends ProfileEvent {
+  const GetProfileEvent();
 }

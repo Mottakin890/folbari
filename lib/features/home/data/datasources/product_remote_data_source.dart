@@ -15,14 +15,55 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getRecommendedProducts() async {
-    logger.i('Fetching recommended products...');
-    // In a real app, you would fetch from Supabase:
-    // final response = await supabaseClient.from('products').select().eq('type', 'recommended');
-    // return response.map((data) => ProductModel.fromJson(data)).toList();
-    
-    // For now, mock the response but keep the structure
-    await Future.delayed(const Duration(milliseconds: 500));
-    final products = [
+    logger.i('Fetching recommended products from Supabase...');
+    try {
+      final response = await supabaseClient
+          .from('products')
+          .select()
+          .eq('is_recommended', true);
+
+      final products = (response as List)
+          .map((data) => ProductModel.fromJson(data))
+          .toList();
+
+      logger.d('Fetched ${products.length} recommended products from Supabase');
+      return products;
+    } catch (e) {
+      logger.e(
+        'Error fetching recommended products from Supabase, using mock data',
+        error: e,
+      );
+      return _getMockRecommendedProducts();
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> getCategoryProducts() async {
+    logger.i('Fetching category products from Supabase...');
+    try {
+      final response = await supabaseClient
+          .from('products')
+          .select()
+          .eq('is_recommended', false);
+
+      final products = (response as List)
+          .map((data) => ProductModel.fromJson(data))
+          .toList();
+
+      logger.d('Fetched ${products.length} category products from Supabase');
+      return products;
+    } catch (e) {
+      logger.e(
+        'Error fetching category products from Supabase, using mock data',
+        error: e,
+      );
+      return _getMockCategoryProducts();
+    }
+  }
+
+  // Fallback mock data
+  List<ProductModel> _getMockRecommendedProducts() {
+    return [
       const ProductModel(
         id: '1',
         name: 'Honey lime combo',
@@ -30,7 +71,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         image: AppAssets.product_1,
         description:
             'If you are looking for a new fruit salad to eat today, honey lime is the perfect brunch for you.',
-        ingredients: 'Honey, Lime, Blueberries, Strawberries, Mango, Fresh mint.',
+        ingredients:
+            'Honey, Lime, Blueberries, Strawberries, Mango, Fresh mint.',
       ),
       const ProductModel(
         id: '2',
@@ -48,18 +90,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         image: AppAssets.product_3,
         description:
             'If you are looking for a new fruit salad to eat today, quinoa is the perfect brunch for you. make',
-        ingredients: 'Red Quinoa, Lime, Honey, Blueberries, Strawberries, Mango, Fresh mint.',
+        ingredients:
+            'Red Quinoa, Lime, Honey, Blueberries, Strawberries, Mango, Fresh mint.',
       ),
     ];
-    logger.d('Fetched ${products.length} recommended products');
-    return products;
   }
 
-  @override
-  Future<List<ProductModel>> getCategoryProducts() async {
-    logger.i('Fetching category products...');
-    await Future.delayed(const Duration(milliseconds: 500));
-    final products = [
+  List<ProductModel> _getMockCategoryProducts() {
+    return [
       const ProductModel(
         id: '4',
         name: 'Quinoa fruit salad',
@@ -67,7 +105,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         image: AppAssets.product_4,
         description:
             'If you are looking for a new fruit salad to eat today, quinoa is the perfect brunch for you.',
-        ingredients: 'Red Quinoa, Lime, Honey, Blueberries, Strawberries, Mango, Fresh mint.',
+        ingredients:
+            'Red Quinoa, Lime, Honey, Blueberries, Strawberries, Mango, Fresh mint.',
       ),
       const ProductModel(
         id: '5',
@@ -79,7 +118,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         ingredients: 'Mango, Pineapple, Papaya, Lime, Fresh mint.',
       ),
       const ProductModel(
-        id: '1',
+        id: '6',
         name: 'Melon fruit salad',
         price: '10,000',
         image: AppAssets.product_5,
@@ -88,7 +127,5 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         ingredients: 'Watermelon, Cantaloupe, Honeydew, Fresh mint.',
       ),
     ];
-    logger.d('Fetched ${products.length} category products');
-    return products;
   }
 }

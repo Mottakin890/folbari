@@ -13,26 +13,30 @@ class ChatMessage {
 class ChatState extends Equatable {
   final ChatStatus status;
   final List<ChatMessage> messages;
+  final bool isAdmin;
   final String? error;
 
   const ChatState({
     this.status = ChatStatus.initial,
     this.messages = const [],
+    this.isAdmin = false,
     this.error,
   });
 
   ChatState copyWith({
     ChatStatus? status,
     List<ChatMessage>? messages,
+    bool? isAdmin,
     String? error,
   }) {
     return ChatState(
       status: status ?? this.status,
       messages: messages ?? this.messages,
+      isAdmin: isAdmin ?? this.isAdmin,
       error: error ?? this.error,
     );
   }
 
   @override
-  List<Object?> get props => [status, messages, error];
+  List<Object?> get props => [status, messages, isAdmin, error];
 }

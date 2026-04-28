@@ -38,19 +38,19 @@ class HomeScreen extends StatelessWidget {
                   padding: REdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   sliver: const SliverToBoxAdapter(child: HomeHeader()),
                 ),
-    
+
                 // Greeting Section
                 SliverPadding(
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   sliver: const SliverToBoxAdapter(child: GreetingsSection()),
                 ),
-    
+
                 // Search Section
                 SliverPadding(
                   padding: REdgeInsets.symmetric(horizontal: 24, vertical: 24),
                   sliver: const SliverToBoxAdapter(child: SearchSection()),
                 ),
-    
+
                 // Recommended Combo Title
                 SliverPadding(
                   padding: REdgeInsets.symmetric(horizontal: 24),
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                     child: SectionTitle(title: 'Recommended Combo'),
                   ),
                 ),
-    
+
                 // Recommended Combo List
                 SliverToBoxAdapter(
                   child: SizedBox(
@@ -66,13 +66,11 @@ class HomeScreen extends StatelessWidget {
                     child: const RecommendedComboList(),
                   ),
                 ),
-    
+
                 // Category Tabs & List
                 const CategoryTabBarSection(),
-    
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 20),
-                ),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
               ],
             ),
           ),
