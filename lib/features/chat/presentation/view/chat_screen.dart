@@ -8,10 +8,24 @@ import 'package:folbari/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:folbari/features/chat/presentation/bloc/chat_state.dart';
 import 'package:folbari/features/chat/presentation/widgets/chat_bubble.dart';
 import 'package:folbari/features/chat/presentation/widgets/chat_input_area.dart';
+import 'package:folbari/features/chat/presentation/bloc/chat_event.dart';
 import 'package:go_router/go_router.dart';
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+class ChatScreen extends StatefulWidget {
+  final String? receiverId;
+  final String? receiverName;
+  const ChatScreen({super.key, this.receiverId, this.receiverName});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ChatBloc>().add(LoadMessages(targetUserId: widget.receiverId));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +50,7 @@ class ChatScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Support Center', style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
+                Text(widget.receiverName ?? 'Support Center', style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
                 Text('Online', style: TextStyle(fontSize: 10.sp, color: AppColors.c4CAF50, fontWeight: FontWeight.w600)),
               ],
             ),
@@ -67,7 +81,7 @@ class ChatScreen extends StatelessWidget {
               },
             ),
           ),
-          const ChatInputArea(),
+          ChatInputArea(targetUserId: widget.receiverId),
         ],
       ),
     );

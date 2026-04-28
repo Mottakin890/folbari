@@ -4,10 +4,26 @@ import 'package:folbari/core/dimensions/spacings.dart';
 import 'package:folbari/core/theme/app_colors.dart';
 import 'package:folbari/core/theme/app_text_styles.dart';
 import 'package:folbari/features/profile/presentation/widgets/setting_item.dart';
+import 'package:folbari/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:folbari/features/profile/presentation/bloc/profile_event.dart';
+import 'package:folbari/features/profile/presentation/bloc/profile_state.dart';
+import 'package:folbari/features/admin/presentation/view/admin_dashboard_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(const GetProfileEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,73 +38,88 @@ class SettingsScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
         ),
       ),
-      body: ListView(
-        padding: REdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        children: [
-          _buildSection('Account Information', [
-            SettingItem(
-              icon: Icons.person_outline_rounded,
-              title: 'Personal Profile',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.location_on_outlined,
-              title: 'Shipping Addresses',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.payment_rounded,
-              title: 'Payment Methods',
-              onTap: () {},
-            ),
-          ]),
-          Spacing.vertical(32),
-          _buildSection('Preferences', [
-            SettingItem(
-              icon: Icons.notifications_none_rounded,
-              title: 'Notifications',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.language_rounded,
-              title: 'Language',
-              trailingText: 'English',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.dark_mode_outlined,
-              title: 'Theme Mode',
-              trailingText: 'Light',
-              onTap: () {},
-            ),
-          ]),
-          Spacing.vertical(32),
-          _buildSection('Support', [
-            SettingItem(
-              icon: Icons.help_outline_rounded,
-              title: 'Help & Support',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.privacy_tip_outlined,
-              title: 'Privacy Policy',
-              onTap: () {},
-            ),
-            SettingItem(
-              icon: Icons.info_outline_rounded,
-              title: 'About FolBari',
-              onTap: () {},
-            ),
-          ]),
-          Spacing.vertical(40),
-          Center(
-            child: Text(
-              'App Version 1.0.0',
-              style: AppTextStyles.bodySmall.copyWith(color: AppColors.c86869E),
-            ),
-          ),
-          Spacing.vertical(20),
-        ],
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          final profile = state.profile;
+          final isAdmin = profile?.isAdmin ?? false;
+          
+          return ListView(
+            padding: REdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            children: [
+              _buildSection('Account Information', [
+                SettingItem(
+                  icon: Icons.person_outline_rounded,
+                  title: 'Personal Profile',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.location_on_outlined,
+                  title: 'Shipping Addresses',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.payment_rounded,
+                  title: 'Payment Methods',
+                  onTap: () {},
+                ),
+              ]),
+              Spacing.vertical(32),
+              _buildSection('Preferences', [
+                SettingItem(
+                  icon: Icons.notifications_none_rounded,
+                  title: 'Notifications',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.language_rounded,
+                  title: 'Language',
+                  trailingText: 'English',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.dark_mode_outlined,
+                  title: 'Theme Mode',
+                  trailingText: 'Light',
+                  onTap: () {},
+                ),
+              ]),
+              Spacing.vertical(32),
+              _buildSection('Support', [
+                if (isAdmin)
+                  SettingItem(
+                    icon: Icons.admin_panel_settings_outlined,
+                    title: 'Admin Panel',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const AdminDashboardScreen()));
+                    },
+                  ),
+                SettingItem(
+                  icon: Icons.help_outline_rounded,
+                  title: 'Help & Support',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.privacy_tip_outlined,
+                  title: 'Privacy Policy',
+                  onTap: () {},
+                ),
+                SettingItem(
+                  icon: Icons.info_outline_rounded,
+                  title: 'About FolBari',
+                  onTap: () {},
+                ),
+              ]),
+              Spacing.vertical(40),
+              Center(
+                child: Text(
+                  'App Version 1.0.0',
+                  style: AppTextStyles.bodySmall.copyWith(color: AppColors.c86869E),
+                ),
+              ),
+              Spacing.vertical(20),
+            ],
+          );
+        },
       ),
     );
   }

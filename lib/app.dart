@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:folbari/core/di/dependency_injection.dart';
 import 'package:folbari/core/routes/app_routes.dart';
 import 'package:folbari/core/theme/app_theme.dart';
+import 'package:folbari/features/admin/presentation/bloc/admin_bloc.dart';
 import 'package:folbari/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:folbari/features/auth/presentation/bloc/auth_event.dart';
 import 'package:folbari/features/splash/presentation/bloc/splash_bloc.dart';
@@ -33,6 +34,7 @@ class FolBariApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<OrderBloc>()..add(const FetchOrders())),
         BlocProvider(create: (context) => sl<ChatBloc>()..add(const LoadMessages())),
         BlocProvider(create: (context) => sl<ProfileBloc>()),
+        BlocProvider(create: (context) => sl<AdminBloc>())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

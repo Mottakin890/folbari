@@ -16,28 +16,12 @@ class BasketRemoteDataSourceImpl implements BasketRemoteDataSource {
 
   @override
   Future<List<BasketItemModel>> getBasketItems() async {
-    final List<BasketItemModel> dummyItems = [
-      const BasketItemModel(
-        id: '1',
-        productId: 'p1',
-        productName: 'Quinoa fruit salad',
-        productPrice: '20,000',
-        productImage: 'assets/png/product_1.png',
-        quantity: 2,
-      ),
-      const BasketItemModel(
-        id: '2',
-        productId: 'p2',
-        productName: 'Melon fruit salad',
-        productPrice: '20,000',
-        productImage: 'assets/png/product_2.png',
-        quantity: 2,
-      ),
-    ];
-
     try {
       final userId = supabaseClient.auth.currentUser?.id;
-      if (userId == null) return dummyItems;
+      if (userId == null) {
+        logger.w('Fetching basket items: No user logged in');
+        return [];
+      }
 
       logger.i('Fetching basket items for user: $userId');
       final response = await supabaseClient
@@ -47,10 +31,10 @@ class BasketRemoteDataSourceImpl implements BasketRemoteDataSource {
       
       final items = (response as List).map((e) => BasketItemModel.fromJson(e)).toList();
       
-      return items.isEmpty ? dummyItems : items;
+      return items;
     } catch (e) {
-      logger.e('Error fetching basket items, returning dummy data for testing', error: e);
-      return dummyItems;
+      logger.e('Error fetching basket items', error: e);
+      rethrow;
     }
   }
 
@@ -58,7 +42,10 @@ class BasketRemoteDataSourceImpl implements BasketRemoteDataSource {
   Future<void> addToBasket(BasketItemModel item) async {
     try {
       final userId = supabaseClient.auth.currentUser?.id;
-      if (userId == null) return;
+      if (userId == null) {
+        logger.w('Adding to basket: No user logged in');
+        return;
+      }
 
       logger.i('Adding item to basket: ${item.productName}');
       await supabaseClient.from('basket_items').upsert({
@@ -67,29 +54,43 @@ class BasketRemoteDataSourceImpl implements BasketRemoteDataSource {
       });
     } catch (e) {
       logger.e('Error adding to basket', error: e);
+      rethrow;
     }
   }
 
   @override
   Future<void> removeFromBasket(String itemId) async {
     try {
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId == null) return;
+
       logger.i('Removing item from basket: $itemId');
-      await supabaseClient.from('basket_items').delete().eq('id', itemId);
+      await supabaseClient
+          .from('basket_items')
+          .delete()
+          .eq('id', itemId)
+          .eq('user_id', userId);
     } catch (e) {
       logger.e('Error removing from basket', error: e);
+      rethrow;
     }
   }
 
   @override
   Future<void> updateQuantity(String itemId, int quantity) async {
     try {
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId == null) return;
+
       logger.i('Updating quantity for item $itemId to $quantity');
       await supabaseClient
           .from('basket_items')
           .update({'quantity': quantity})
-          .eq('id', itemId);
+          .eq('id', itemId)
+          .eq('user_id', userId);
     } catch (e) {
       logger.e('Error updating quantity', error: e);
+      rethrow;
     }
   }
 }

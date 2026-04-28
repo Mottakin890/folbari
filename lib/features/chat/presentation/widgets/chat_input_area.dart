@@ -8,7 +8,8 @@ import 'package:folbari/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:folbari/features/chat/presentation/bloc/chat_event.dart';
 
 class ChatInputArea extends StatefulWidget {
-  const ChatInputArea({super.key});
+  final String? targetUserId;
+  const ChatInputArea({super.key, this.targetUserId});
 
   @override
   State<ChatInputArea> createState() => _ChatInputAreaState();
@@ -19,7 +20,13 @@ class _ChatInputAreaState extends State<ChatInputArea> {
 
   void _send() {
     if (_controller.text.trim().isNotEmpty) {
-      context.read<ChatBloc>().add(SendMessage(_controller.text));
+      final chatBloc = context.read<ChatBloc>();
+      final isAdmin = chatBloc.state.isAdmin;
+      chatBloc.add(SendMessage(
+        _controller.text,
+        targetUserId: widget.targetUserId,
+        isAdmin: isAdmin,
+      ));
       _controller.clear();
     }
   }
